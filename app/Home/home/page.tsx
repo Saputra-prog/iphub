@@ -28,9 +28,12 @@ export default function Home() {
               Dapatkan penawaran menarik dari Kami
             </p>
           </div>
-          <button className="mt-8 bg-amber-500 hover:bg-amber-600 text-zinc-900 font-semibold px-6 py-3 rounded-lg text-xs md:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 cursor-pointer">
+          <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20bertanya%20mengenai%20layanan%20IPHUB"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-block mt-8 bg-amber-500 hover:bg-amber-600 text-zinc-900 font-semibold px-6 py-3 rounded-lg text-xs md:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 cursor-pointer text-center">
             Hubungi Kami Sekarang
-          </button>
+          </a>
         </div>
       </div>
     </div>
