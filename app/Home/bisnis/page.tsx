@@ -8,7 +8,7 @@ function BusinessPlanning() {
       className="relative left-1/2 w-screen -translate-x-1/2 my-16 bg-cover bg-center"
       style={{
         backgroundImage:
-          "url('/bg-p1.jpeg')",
+          "url('/bg-iphub.png')",
       }}
     >
       <div className="grid grid-cols-2">
