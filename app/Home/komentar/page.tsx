@@ -6,33 +6,28 @@ import Image from "next/image";
 const comments = [
   {
     image: "/bg-1.png",
-    name: "Naila Murni Cahyani",
-    position: "CEO PT. Woman Empowerment Indonesia",
-    text: "Proses penggunaan jasa kami berjalan sangat lancar dan transparan. Tim sangat responsif dan memberikan pelayanan terbaik.",
+    name: "Alwi AlRasyi",
+    text: "Mungkin saya menemukan salah satu Virtual office yang unik. Karena dari luar seperti sebuah coffee shop tapi waktu masuk kedalam, tempat ini ternyata memiliki fasilitas VO. Kelebihan virtual office ditempat ini dapat membantu segala proses perizinan seperti pendirian PT, lisensi bisnis dan konsultan pajak.",
   },
   {
     image: "/bg-1.png",
-    name: "Danendra Saputra",
-    position: "CEO PT. Synapse Teknologi Digital",
-    text: "Pelayanan cepat, tepat, dan sangat membantu. Kami merasa sangat terbantu dengan layanan yang diberikan.",
+    name: "Aulia Rizki",
+    text: "Virtual office di pusat kota jakarta yang tidak kena rute ganjil genap dan mudah di akses oleh transportasi publik seperti commuter dan transjakarta. Ada cafe dan meeting room untuk pertemuan dengan klien.",
   },
   {
     image: "/bg-1.png",
-    name: " Zahratul Jannah Afnur",
-    position: "CEO, PT. Komputer Indonesia",
-    text: "Kami sangat puas dengan hasil pekerjaan yang diberikan. Prosesnya mudah dan komunikasinya sangat baik.",
+    name: "Zacky Hutama",
+    text: "Great place to work, with a cafe on the ground floor. Also, the first time I got here, I'm visiting the Mozilla Community Space Jakarta. Have a great time here, definitely come back here any time soon!",
   },
   {
     image: "/bg-1.png",
-    name: "Arpi",
-    position: "CEO PT. Peralatan Gaming",
-    text: "Profesional, ramah, dan sangat membantu dalam menyelesaikan kebutuhan bisnis kami.",
+    name: "Agus Rochmanto",
+    text: "Sekilas terlihat  hanya 1 lantai ternyata setelah masuk ada perkantoran yg nyaman dan cukup mewah sampai 4 lantai. Bersyukur kita bs dapat tempat disana..strategis simple dan representatif.",
   },
   {
     image: "/bg-1.png",
-    name: "Bina Muhammad",
-    position: "CEO PT. Desain Kreatif Indonesia",
-    text: "Pengalaman yang sangat baik. Pelayanan profesional dan hasil yang diberikan sesuai dengan kebutuhan kami.",
+    name: "Chloe Elizabetha",
+    text: "Worth it banget sih pelayanan nya, proses administrasinya juga cepat dan gak ribet, Pegawainya profesional, ramah jadi helping banget buat ngurus surat² maupun urusan legalitas. Lokasinya jg strategis jadi ngasih image yang bagus untuk bisnis saya, harganya pun worth it lah dengan fasilitas dan kualitas pelayanan yang disuguhin. Intinya recommended bgt buat pengusaha yang butuh domisili kantor yang terpercaya, mantap.",
   },
 ];
 
@@ -40,13 +35,14 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
 
   const handlePrevious = () => {
-    setCurrent((prev) => (prev - 1 + comments.length) % comments.length);
+    setCurrent(
+      (prev) => (prev - 1 + comments.length) % comments.length
+    );
   };
 
   const handleNext = () => {
     setCurrent((prev) => (prev + 1) % comments.length);
   };
-
 
   const leftIndex = (current - 1 + comments.length) % comments.length;
   const centerIndex = current;
@@ -57,10 +53,12 @@ export default function Home() {
   const rightComment = comments[rightIndex];
 
   return (
-    <main>
-      <section
+    <div>
+      <div
         className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-cover bg-center bg-no-repeat py-16"
-        style={{ backgroundImage: "url('/image/background-testimoni.png')" }}
+        style={{
+          backgroundImage: "url('/bg-iphub.png')",
+        }}
       >
         <div className="mx-auto grid w-full max-w-6xl px-6 text-center">
           <h2 className="text-3xl font-bold">
@@ -95,16 +93,11 @@ export default function Home() {
                   alt={leftComment.name}
                   width={40}
                   height={40}
-                  className="rounded-full object-cover"
+                  className="h-10 w-10 aspect-square rounded-full object-cover"
                 />
-                <div className="min-w-0">
-                  <p className="truncate text-xs font-semibold text-gray-800">
-                    {leftComment.name}
-                  </p>
-                  <p className="truncate text-[10px] text-gray-500">
-                    {leftComment.position}
-                  </p>
-                </div>
+                <p className="truncate text-xs font-semibold text-gray-800">
+                  {leftComment.name}
+                </p>
               </div>
             </div>
             <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
@@ -120,16 +113,11 @@ export default function Home() {
                   alt={centerComment.name}
                   width={40}
                   height={40}
-                  className="rounded-full object-cover"
+                  className="h-10 w-10 aspect-square rounded-full object-cover"
                 />
-                <div className="min-w-0">
-                  <p className="truncate text-xs font-semibold text-gray-800">
-                    {centerComment.name}
-                  </p>
-                  <p className="truncate text-[10px] text-gray-500">
-                    {centerComment.position}
-                  </p>
-                </div>
+                <p className="truncate text-xs font-semibold text-gray-800">
+                  {centerComment.name}
+                </p>
               </div>
             </div>
             <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
@@ -145,16 +133,11 @@ export default function Home() {
                   alt={rightComment.name}
                   width={40}
                   height={40}
-                  className="rounded-full object-cover"
+                  className="h-10 w-10 aspect-square rounded-full object-cover"
                 />
-                <div className="min-w-0">
-                  <p className="truncate text-xs font-semibold text-gray-800">
-                    {rightComment.name}
-                  </p>
-                  <p className="truncate text-[10px] text-gray-500">
-                    {rightComment.position}
-                  </p>
-                </div>
+                <p className="truncate text-xs font-semibold text-gray-800">
+                  {rightComment.name}
+                </p>
               </div>
             </div>
           </div>
@@ -184,7 +167,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }
