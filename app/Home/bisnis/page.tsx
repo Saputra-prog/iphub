@@ -31,7 +31,7 @@ function BusinessPlanning() {
           <img
             src="/bg-p.jpeg"
             alt="Business Planning"
-            className="w-full h-auto max-h-[400px] object-cover rounded-lg shadow-lg mx-auto"
+            className="w-full h-auto object-cover rounded-lg shadow-lg mx-auto"
           />
         </div>
       </div>
