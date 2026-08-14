@@ -76,7 +76,7 @@ export default function Home() {
             type="button"
             onClick={handlePrevious}
             aria-label="Komentar sebelumnya"
-            className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
+            className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
           >
             ‹
           </button>
@@ -150,7 +150,7 @@ export default function Home() {
             type="button"
             onClick={handleNext}
             aria-label="Komentar selanjutnya"
-            className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
+            className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
           >
             ›
           </button>
