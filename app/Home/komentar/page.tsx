@@ -22,7 +22,7 @@ const comments = [
   {
     image: "/bg-1.png",
     name: "Agus Rochmanto",
-    text: "Sekilas terlihat  hanya 1 lantai ternyata setelah masuk ada perkantoran yg nyaman dan cukup mewah sampai 4 lantai. Bersyukur kita bs dapat tempat disana..strategis simple dan representatif.",
+    text: "Sekilas terlihat hanya 1 lantai ternyata setelah masuk ada perkantoran yg nyaman dan cukup mewah sampai 4 lantai. Bersyukur kita bs dapat tempat disana..strategis simple dan representatif.",
   },
   {
     image: "/bg-1.png",
@@ -55,32 +55,34 @@ export default function Home() {
   return (
     <div>
       <div
-        className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-cover bg-center bg-no-repeat py-16"
+        className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-cover bg-center bg-no-repeat py-12 md:py-16"
         style={{
           backgroundImage: "url('/bg-iphub.png')",
         }}
       >
-        <div className="mx-auto grid w-full max-w-6xl px-6 text-center">
-          <h2 className="text-3xl font-bold">
+        <div className="mx-auto grid w-full max-w-6xl px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold">
             <span className="text-[#d4a35f]">Komentar</span>{" "}
             <span className="text-black">Klien Kami</span>
           </h2>
-          <p className="mt-3 text-sm text-gray-600">
+          <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-600 max-w-2xl mx-auto">
             Komentar dari klien yang telah menggunakan layanan kami sebagai
             wujud profesionalisme dan kualitas kerja.
           </p>
         </div>
-        <div className="relative mx-auto mt-10 grid w-full max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-3 px-8">
+
+        <div className="relative mx-auto mt-8 sm:mt-10 flex w-full max-w-6xl items-center justify-between gap-2 sm:gap-4 px-4 sm:px-8">
           <button
             type="button"
             onClick={handlePrevious}
             aria-label="Komentar sebelumnya"
-            className="grid h-9 w-9 place-items-center rounded-full border border-[#e88900] bg-white text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
+            className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
           >
             ‹
           </button>
-          <div className="grid w-full grid-cols-3 items-center gap-4">
-            <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
+
+          <div className="grid w-full grid-cols-1 md:grid-cols-3 items-center gap-4">
+            <div className="hidden md:grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
                 ★★★★★
               </div>
@@ -100,6 +102,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
+
             <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
                 ★★★★★
@@ -120,7 +123,8 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
+
+            <div className="hidden md:grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
                 ★★★★★
               </div>
@@ -141,15 +145,17 @@ export default function Home() {
               </div>
             </div>
           </div>
+
           <button
             type="button"
             onClick={handleNext}
             aria-label="Komentar selanjutnya"
-            className="grid h-9 w-9 place-items-center rounded-full border border-[#e88900] bg-white text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
+            className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
           >
             ›
           </button>
         </div>
+
         <div className="mt-5 grid place-items-center">
           <div className="grid grid-flow-col items-center gap-1.5">
             {comments.map((_, index) => (
