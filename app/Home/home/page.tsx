@@ -28,7 +28,7 @@ export default function Home() {
             </p>
           </div>
           <a
-            href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20bertanya%20mengenai%20layanan%20IPHUB" 
+            href="https://wa.me/628118181466?text=Halo,%20saya%20ingin%20bertanya%20mengenai%20layanan%20IPHUB" 
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block w-full sm:w-auto mt-6 sm:mt-8 bg-amber-500 hover:bg-amber-600 text-zinc-900 font-semibold px-6 py-3 rounded-lg text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 cursor-pointer text-center"
