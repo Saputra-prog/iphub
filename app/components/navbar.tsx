@@ -18,11 +18,9 @@ function Navbar() {
   return (
     <nav className="w-full bg-[#1c1c1c] text-white z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Tinggi navbar dinaikkan sedikit (h-20 sm:h-24) */}
         <div className="flex items-center justify-between h-20 sm:h-24">
           <div className="shrink-0 flex items-center">
             <Link href="/">
-              {/* Ukuran logo diperbesar sedikit (w-28 sm:w-36 md:w-40) */}
               <Image 
                 src="/Logo3.png" 
                 width={160} 
@@ -33,8 +31,6 @@ function Navbar() {
               />
             </Link>
           </div>
-
-          {/* Ukuran teks dinaikkan ke text-sm lg:text-base dan garis dihapus */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8 text-sm lg:text-base font-semibold tracking-wide whitespace-nowrap">
             <a href="#home" className="hover:text-amber-400 transition-colors">
               Tentang kami
