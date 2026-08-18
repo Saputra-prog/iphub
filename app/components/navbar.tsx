@@ -48,7 +48,6 @@ function Navbar() {
               Hubungi Kami
             </a>
           </div>
-
           <div className="flex md:hidden">
             <button
               onClick={toggleMenu}
@@ -69,7 +68,6 @@ function Navbar() {
           </div>
         </div>
       </div>
-
       {isOpen && (
         <div className="md:hidden bg-[#1c1c1c] border-t border-zinc-800 px-6 py-4 space-y-3 text-base font-medium">
           <a href="#home" onClick={closeMenu} className="block hover:text-amber-400 py-1 transition-colors">
