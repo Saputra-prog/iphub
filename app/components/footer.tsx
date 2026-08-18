@@ -12,15 +12,15 @@ export default function Footer() {
         </svg>
       ),
     },
-    {
-      label: 'X',
-      href: '#',
-      svg: (
-        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-      ),
-    },
+    // {
+    //   label: 'X',
+    //   href: '#',
+    //   svg: (
+    //     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+    //       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    //     </svg>
+    //   ),
+    // },
     {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/company/iphubbusiness/',
@@ -88,9 +88,12 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <Image src="/Logo3.png" width={160} height={50} alt="IPHUB Logo" priority />
             </div>
-            <h3 className="text-xl font-bold text-amber-500">Misi Kami</h3>
+            <h3 className="text-xl font-bold text-amber-500">Tentang Kami</h3>
             <p className="text-xs text-zinc-300 leading-relaxed pr-4">
               IPHub adalah ekosistem bisnis di mana perusahaan Anda dapat memiliki peluang terbaik untuk berhasil. Kami dapat memfasilitasi ruang kerja tim Anda, lokakarya, dan acara perusahaan. Konsultan IPHub juga siap untuk membantu kebutuhan bisnis Anda.
+            </p>
+            <p className="text-xs text-zinc-300 leading-relaxed pr-4">
+              Sebagai sister company dari Reanda Bernardi, firma akuntansi terintegrasi peringkat top 20 dunia, IPHub memiliki akses ke investor Cina, Jepang, dan negara maju lainnya, yang dapat membantu memperbesar skala bisnis perusahaan kamu.
             </p>
             <div className="flex gap-2 pt-2">
               {socialLinks.map((item, idx) => (
