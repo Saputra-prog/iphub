@@ -87,17 +87,9 @@ const servicesCategories: ServiceCategory[] = [
         icon: FileCheck2,
         options: [
           {
-            optionLabel: 'Option 1',
+            optionLabel: '',
             description: 'From high-risk sector approvals to specialized ministry permits, our premium licensing service handles your specific corporate compliance architecture while you focus entirely on market domination.'
-          },
-          {
-            optionLabel: 'Option 2',
-            description: 'Ensure that every specific commercial activity, product certification, and technical standard relevant to your business sector has absolute legal validation through PB-UMKU processing services that are fully integrated with the relevant ministries and the latest OSS RBA system.'
-          },
-          {
-            optionLabel: 'Option 3',
-            description: 'Protect your business investment from the risks of administrative sanctions and operational hurdles by entrusting the verification of your standard certificates, distribution permits, and PB-UMKU special licenses to our team of corporate legal experts.'
-          }
+          }  
         ]
       },
     ]

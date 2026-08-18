@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Phone, Mail, MapPin, Play } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa6'
 
 export default function Footer() {
   const socialLinks = [
@@ -126,11 +127,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pt-6 border-t border-zinc-800/60">
           <div className="flex items-center gap-3">
             <div className="p-2 border border-amber-500/50 rounded-lg text-amber-500">
-              <Phone className="w-5 h-5" />
+              <FaWhatsapp className="w-5 h-5" />
             </div>
             <div>
               <p className="text-xs font-semibold text-amber-500">+62 811 818 1466</p>
-              <p className="text-[10px] text-zinc-400">Senin - Jumat 9am - 6pm</p>
+              <p className="text-[10px] text-zinc-400">Senin - Jumat 08.00 - 17.30</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
