@@ -7,8 +7,6 @@ import {
   UserCheck, 
   Landmark, 
   FileCheck2, 
-  ShieldCheck, 
-  CheckCircle2, 
   BookOpenCheck, 
   FileSearch, 
   Receipt, 
@@ -21,10 +19,16 @@ import {
   LucideIcon
 } from 'lucide-react'
 
+interface LicenseOption {
+  optionLabel: string
+  description: string
+}
+
 interface ServiceItem {
   id: number
   title: string
-  description: string
+  description?: string
+  options?: LicenseOption[]
   icon: LucideIcon
 }
 
@@ -79,21 +83,22 @@ const servicesCategories: ServiceCategory[] = [
     items: [
       { 
         id: 6, 
-        title: 'High-Risk & Ministry Special Permits', 
-        description: 'From high-risk sector approvals to specialized ministry permits, our premium licensing service handles your specific corporate compliance architecture while you focus entirely on market domination.', 
-        icon: FileCheck2 
-      },
-      { 
-        id: 7, 
-        title: 'PB-UMKU & OSS RBA Integration', 
-        description: 'Ensure that every specific commercial activity, product certification, and technical standard relevant to your business sector has absolute legal validation through PB-UMKU processing services that are fully integrated with the relevant ministries and the latest OSS RBA system.', 
-        icon: ShieldCheck 
-      },
-      { 
-        id: 8, 
-        title: 'Standard Certificate & License Verification', 
-        description: 'Protect your business investment from the risks of administrative sanctions and operational hurdles by entrusting the verification of your standard certificates, distribution permits, and PB-UMKU special licenses to our team of corporate legal experts.', 
-        icon: CheckCircle2 
+        title: 'Standard Business License Service', 
+        icon: FileCheck2,
+        options: [
+          {
+            optionLabel: 'Option 1',
+            description: 'From high-risk sector approvals to specialized ministry permits, our premium licensing service handles your specific corporate compliance architecture while you focus entirely on market domination.'
+          },
+          {
+            optionLabel: 'Option 2',
+            description: 'Ensure that every specific commercial activity, product certification, and technical standard relevant to your business sector has absolute legal validation through PB-UMKU processing services that are fully integrated with the relevant ministries and the latest OSS RBA system.'
+          },
+          {
+            optionLabel: 'Option 3',
+            description: 'Protect your business investment from the risks of administrative sanctions and operational hurdles by entrusting the verification of your standard certificates, distribution permits, and PB-UMKU special licenses to our team of corporate legal experts.'
+          }
+        ]
       },
     ]
   },
@@ -101,31 +106,31 @@ const servicesCategories: ServiceCategory[] = [
     categoryName: 'Financial, Advisory & Legal Services',
     items: [
       { 
-        id: 9, 
+        id: 7, 
         title: 'Book-keeping', 
         description: 'Entrust your financial architecture to Reanda Bernardi, our sister firm, a premium corporate advisory powerhouse that delivers flawless bookkeeping, immaculate financial ledger maintenance, and uncompromising regulatory compliance to support your high-stakes executive decisions.', 
         icon: BookOpenCheck 
       },
       { 
-        id: 10, 
+        id: 8, 
         title: 'Audit Service', 
         description: 'Leveraging over 50 years of domestic excellence and the cross-border strength of a top-tier global network, Reanda Bernardi (our sister firm) delivers institutional-grade audit and assurance services that satisfy stringent regulatory compliance while revealing deep, realistic business insights to foster multi-generational enterprise sustainability.', 
         icon: FileSearch 
       },
       { 
-        id: 11, 
+        id: 9, 
         title: 'Tax Consulting Service', 
         description: 'Reanda Bernardi delivers elite tax consulting services that provide absolute assurance on your tax compliance, meticulously insulating your enterprise from fiscal exposure while strategically aligning your operations with the latest regulatory frameworks.', 
         icon: Receipt 
       },
       { 
-        id: 12, 
+        id: 10, 
         title: 'VISA & KITAS', 
         description: 'Transition your international executives and specialized talent into Indonesia effortlessly with a premium immigration service that manages your corporate visas and KITAS processing with strict regulatory precision and boardroom-level transparency.', 
         icon: Globe 
       },
       { 
-        id: 13, 
+        id: 11, 
         title: 'Trademark & Patent', 
         description: "Deliver elite intellectual property management services that safeguard your enterprise's proprietary innovations, strategically securing your trademark and patent registrations to provide absolute legal protection and commercial exclusivity in domestic markets.", 
         icon: Award 
@@ -136,19 +141,19 @@ const servicesCategories: ServiceCategory[] = [
     categoryName: 'Facilities',
     items: [
       { 
-        id: 14, 
+        id: 12, 
         title: 'Cafe & Coffee Roastery', 
         description: 'Workroom Coffee is built different—bringing you lightning-fast Wi-Fi, premium house-roasted beans, and an electric atmosphere designed to take you from a high-stakes team meeting to creative deep work, right into a fully relaxed afternoon lounge session.', 
         icon: Coffee 
       },
       { 
-        id: 15, 
+        id: 13, 
         title: 'Meeting Room', 
         description: 'Elevate your presentations and client pitches in our three stunning, fully equipped meeting rooms, offering an expansive 14-pax boardroom for major corporate strategy sessions and two intimate 8-pax spaces optimized for fluid team collaboration.', 
         icon: Users 
       },
       { 
-        id: 16, 
+        id: 14, 
         title: 'Private Office', 
         description: 'Find your ideal workspace home within a corporate ecosystem designed for comfort, featuring flexible office sizing to scale your business seamlessly and a premium first-floor cafe that serves as the ultimate backdrop for casual meetings and afternoon relaxation.', 
         icon: Briefcase 
@@ -193,10 +198,24 @@ export default function Desk() {
             <ChevronDown className="w-4 h-4" />
           </div>
         </div>
+
         {isOpen && (
-          <p className="mt-3 text-xs text-gray-600 leading-relaxed border-t border-amber-100 pt-3">
-            {service.description}
-          </p>
+          <div className="mt-3 text-xs text-gray-600 border-t border-amber-100 pt-3">
+            {service.options ? (
+              <div className="flex flex-col gap-3">
+                {service.options.map((opt, idx) => (
+                  <div key={idx} className="bg-white/80 p-3 rounded-xl border border-amber-200/60">
+                    <span className="font-semibold text-amber-800 block mb-1">
+                      {opt.optionLabel}
+                    </span>
+                    <p className="leading-relaxed">{opt.description}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="leading-relaxed">{service.description}</p>
+            )}
+          </div>
         )}
       </div>
     )
