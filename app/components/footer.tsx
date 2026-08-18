@@ -130,7 +130,7 @@ export default function Footer() {
               <FaWhatsapp className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-amber-500">+62 811 818 1466</p>
+              <p className="text-xs font-semibold text-amber-500">+62 811 8181 1466</p>
               <p className="text-[10px] text-zinc-400">Senin - Jumat 08.00 - 17.30</p>
             </div>
           </div>
@@ -140,7 +140,7 @@ export default function Footer() {
             </div>
             <div>
               <p className="text-xs font-semibold text-amber-500">marketing@iphub.co.id</p>
-              <p className="text-[10px] text-zinc-400">Dukungan Online</p>
+              <p className="text-[10px] text-zinc-400">Email</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
