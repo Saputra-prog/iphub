@@ -71,6 +71,9 @@ export default function Footer() {
               <Image src="/Logo3.png" width={160} height={50} alt="IPHUB Logo" priority />
             </div>
             <h3 className="text-xl font-bold text-amber-500">Misi Kami</h3>
+            <p className='text-xs text-zinc-300 leading-relaxed pr-4'>
+              IPHub adalah ekosistem bisnis dimana perusahaan anda dapat memiliki peluang terbaik untuk berhasil kami dapat memfasilitasi ruang kerja tim anda, lokakarya, dan acara perusahaan. Konsultan IPHub juga siap untuk membantu kebutuhan bisnis anda
+            </p>
             <p className="text-xs text-zinc-300 leading-relaxed pr-4">
   Sebagai sister company dari Reanda Bernardi{' '}
   <a
