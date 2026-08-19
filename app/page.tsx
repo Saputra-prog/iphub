@@ -1,10 +1,10 @@
-import  Home  from './Home/home/page'
+import  Home  from './User/Home/home/page'
 import Navbar from './components/navbar'
-import Desk from './Home/desk/page'
-import Lokasi from './Home/lokasi/page'
-import Berita from './Home/berita/page'
-import Komentar from './Home/komentar/page'
-import Bisnis from './Home/bisnis/page'
+import Desk from './User/Home/desk/page'
+import Lokasi from './User/Home/lokasi/page'
+import Berita from './User/Home/berita/page'
+import Komentar from './User/Home/komentar/page'
+import Bisnis from './User/Home/bisnis/page'
 import Footer from './components/footer'
 
 
