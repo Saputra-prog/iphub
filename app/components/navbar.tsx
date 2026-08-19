@@ -23,8 +23,8 @@ function Navbar() {
             <Link href="/">
               <Image 
                 src="/Logo3.png" 
-                width={160} 
-                height={50} 
+                width={250} 
+                height={140} 
                 alt="IPHUB LOGO" 
                 priority 
                 className="w-28 sm:w-36 md:w-40 h-auto object-contain"
