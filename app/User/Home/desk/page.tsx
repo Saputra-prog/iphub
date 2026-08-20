@@ -259,7 +259,7 @@ export default function Desk() {
       <div className="relative max-w-6xl mx-auto border border-amber-200 rounded-3xl p-6 md:p-8 pt-10 bg-amber-50/20">
         <div className="absolute -top-3.5 left-6">
           <span className="px-3.5 py-1 text-xs font-semibold text-amber-700 bg-amber-100 border border-amber-300 rounded-full select-none cursor-default shadow-sm">
-            service
+            Service
           </span>
         </div>
 
