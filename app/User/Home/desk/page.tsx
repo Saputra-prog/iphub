@@ -228,7 +228,7 @@ export default function Desk() {
 
     if (items.length === 2) {
       return (
-        <div className="flex justify-center gap-4 w-full">
+        <div className="flex flex-col md:flex-row justify-center gap-4 w-full">
           <div className="w-full md:w-[calc(33.333%-11px)]">
             {renderCard(items[0])}
           </div>
@@ -245,7 +245,6 @@ export default function Desk() {
       </div>
     )
   }
-
   return (
     <div className="bg-white min-h-screen p-8">
       <h1 className="font-bold text-2xl flex justify-center gap-2 mb-2">
