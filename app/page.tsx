@@ -6,6 +6,7 @@ import Berita from './User/Home/berita/page'
 import Komentar from './User/Home/komentar/page'
 import Bisnis from './User/Home/bisnis/page'
 import Footer from './components/footer'
+import PromoBanner from './User/Home/promoBanner/page'
 
 
 function page() {
@@ -17,6 +18,9 @@ function page() {
       </div>
       <div id="desk">
       <Desk />
+      </div>
+      <div id="promo">
+      <PromoBanner />
       </div>
       <div id="bisnis">
       <Bisnis />

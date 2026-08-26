@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { 
   Building2, 
   Building, 
@@ -19,17 +20,13 @@ import {
   LucideIcon
 } from 'lucide-react'
 
-interface LicenseOption {
-  optionLabel: string
-  description: string
-}
-
 interface ServiceItem {
-  id: number
+  _id?: string
+  id?: string | number
   title: string
+  category: string
   description?: string
-  options?: LicenseOption[]
-  icon: LucideIcon
+  icon?: string | LucideIcon
 }
 
 interface ServiceCategory {
@@ -37,138 +34,83 @@ interface ServiceCategory {
   items: ServiceItem[]
 }
 
-const servicesCategories: ServiceCategory[] = [
-  {
-    categoryName: 'General Corporate & Virtual Office',
-    items: [
-      { 
-        id: 1, 
-        title: 'Kantor Virtual', 
-        description: "Elevate your business to the pinnacle of corporate sophistication with an iconic Jakarta's Golden Triangle location that commands immediate respect, offering a prestigious professional address, seamless call handling, and full administrative support to ensure your enterprise operates flawlessly at the highest level.", 
-        icon: Building2 
-      },
-    ]
-  },
-  {
-    categoryName: 'Corporate Establishment',
-    items: [
-      { 
-        id: 2, 
-        title: 'Limited Liability Company (PMA)', 
-        description: 'Seamlessly navigate the complexities of local regulations and launch your enterprise with a fully compliant, market-ready corporate structure tailored for global growth.', 
-        icon: Building 
-      },
-      { 
-        id: 3, 
-        title: 'Limited Liability Company (local)', 
-        description: 'Transition from a small business to a powerful legal entity with a flawless limited liability company establishment service that secures your notary deed, Ministry of Law and Human Rights (AHU) approval, and complete licensing with absolute precision and zero operational downtime.', 
-        icon: UserCheck 
-      },
-      { 
-        id: 4, 
-        title: 'Foundation (Yayasan)', 
-        description: 'Establish your Foundation with complete confidence through our comprehensive legal services, securing seamless Ministry approval, compliant operational permits, and a bulletproof organizational structure tailored for lasting social impact.', 
-        icon: Landmark 
-      },
-      { 
-        id: 5, 
-        title: 'Individual Limited Liability Company', 
-        description: 'Establish your Individual Limited Liability Company seamlessly with our expert legal guidance, allowing you to secure single-founder corporate liability, official Ministry approval, and professional business licensing without the requirement of minimum capital or partners.', 
-        icon: UserCheck 
-      },
-    ]
-  },
-  {
-    categoryName: 'Standard Business License Service',
-    items: [
-      { 
-        id: 6, 
-        title: 'Standard Business License Service', 
-        icon: FileCheck2,
-        options: [
-          {
-            optionLabel: '',
-            description: 'From high-risk sector approvals to specialized ministry permits, our premium licensing service handles your specific corporate compliance architecture while you focus entirely on market domination.'
-          }  
-        ]
-      },
-    ]
-  },
-  {
-    categoryName: 'Financial, Advisory & Legal Services',
-    items: [
-      { 
-        id: 7, 
-        title: 'Book-keeping', 
-        description: 'Entrust your financial architecture to Reanda Bernardi, our sister firm, a premium corporate advisory powerhouse that delivers flawless bookkeeping, immaculate financial ledger maintenance, and uncompromising regulatory compliance to support your high-stakes executive decisions.', 
-        icon: BookOpenCheck 
-      },
-      { 
-        id: 8, 
-        title: 'Audit Service', 
-        description: 'Leveraging over 50 years of domestic excellence and the cross-border strength of a top-tier global network, Reanda Bernardi (our sister firm) delivers institutional-grade audit and assurance services that satisfy stringent regulatory compliance while revealing deep, realistic business insights to foster multi-generational enterprise sustainability.', 
-        icon: FileSearch 
-      },
-      { 
-        id: 9, 
-        title: 'Tax Consulting Service', 
-        description: 'Reanda Bernardi delivers elite tax consulting services that provide absolute assurance on your tax compliance, meticulously insulating your enterprise from fiscal exposure while strategically aligning your operations with the latest regulatory frameworks.', 
-        icon: Receipt 
-      },
-      { 
-        id: 10, 
-        title: 'VISA & KITAS', 
-        description: 'Transition your international executives and specialized talent into Indonesia effortlessly with a premium immigration service that manages your corporate visas and KITAS processing with strict regulatory precision and boardroom-level transparency.', 
-        icon: Globe 
-      },
-      { 
-        id: 11, 
-        title: 'Trademark & Patent', 
-        description: "Deliver elite intellectual property management services that safeguard your enterprise's proprietary innovations, strategically securing your trademark and patent registrations to provide absolute legal protection and commercial exclusivity in domestic markets.", 
-        icon: Award 
-      },
-    ]
-  },
-  {
-    categoryName: 'Facilities',
-    items: [
-      { 
-        id: 12, 
-        title: 'Cafe & Coffee Roastery', 
-        description: 'Workroom Coffee is built different—bringing you lightning-fast Wi-Fi, premium house-roasted beans, and an electric atmosphere designed to take you from a high-stakes team meeting to creative deep work, right into a fully relaxed afternoon lounge session.', 
-        icon: Coffee 
-      },
-      { 
-        id: 13, 
-        title: 'Meeting Room', 
-        description: 'Elevate your presentations and client pitches in our three stunning, fully equipped meeting rooms, offering an expansive 14-pax boardroom for major corporate strategy sessions and two intimate 8-pax spaces optimized for fluid team collaboration.', 
-        icon: Users 
-      },
-      { 
-        id: 14, 
-        title: 'Private Office', 
-        description: 'Find your ideal workspace home within a corporate ecosystem designed for comfort, featuring flexible office sizing to scale your business seamlessly and a premium first-floor cafe that serves as the ultimate backdrop for casual meetings and afternoon relaxation.', 
-        icon: Briefcase 
-      },
-    ]
-  }
+const CATEGORY_LIST = [
+  'General Corporate & Virtual Office',
+  'Corporate Establishment',
+  'Standard Business License Service',
+  'Financial, Advisory & Legal Services',
+  'Facilities'
 ]
 
-export default function Desk() {
-  const [openId, setOpenId] = useState<number | null>(1)
+const ICON_MAP: Record<string, LucideIcon> = {
+  'Kantor Virtual': Building2,
+  'Limited Liability Company (PMA)': Building,
+  'Limited Liability Company (local)': UserCheck,
+  'Foundation (Yayasan)': Landmark,
+  'Individual Limited Liability Company': UserCheck,
+  'Standard Business License Service': FileCheck2,
+  'Book-keeping': BookOpenCheck,
+  'Audit Service': FileSearch,
+  'Tax Consulting Service': Receipt,
+  'VISA & KITAS': Globe,
+  'Trademark & Patent': Award,
+  'Cafe & Coffee Roastery': Coffee,
+  'Meeting Room': Users,
+  'Private Office': Briefcase
+}
 
-  const toggleCard = (id: number) => {
+export default function Desk() {
+  const [openId, setOpenId] = useState<string | number | null>(null)
+  const [servicesCategories, setServicesCategories] = useState<ServiceCategory[]>([])
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || ""
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/serviceModel`)
+        if (res.data.success) {
+          const rawData: ServiceItem[] = res.data.data
+
+          const groupedCategories: ServiceCategory[] = CATEGORY_LIST.map((catName) => {
+            const filteredItems = rawData.filter((item) => item.category === catName)
+            return {
+              categoryName: catName,
+              items: filteredItems
+            }
+          })
+
+          setServicesCategories(groupedCategories)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchServices()
+  }, [API_URL])
+
+  const toggleCard = (id: string | number) => {
     setOpenId(openId === id ? null : id)
   }
 
   const renderCard = (service: ServiceItem) => {
-    const isOpen = openId === service.id
-    const IconComponent = service.icon
+    const itemId = service._id || service.id || ""
+    const isOpen = openId === itemId
+
+    let IconComponent: LucideIcon = Building2
+    if (typeof service.icon === 'function' || typeof service.icon === 'object') {
+      IconComponent = service.icon as LucideIcon
+    } else if (typeof service.icon === 'string' && ICON_MAP[service.icon]) {
+      IconComponent = ICON_MAP[service.icon]
+    } else if (ICON_MAP[service.title]) {
+      IconComponent = ICON_MAP[service.title]
+    }
 
     return (
       <div
-        key={service.id}
-        onClick={() => toggleCard(service.id)}
+        key={itemId}
+        onClick={() => toggleCard(itemId)}
         className={`border rounded-2xl p-4 cursor-pointer transition-all duration-300 min-h-19 flex flex-col justify-center w-full ${
           isOpen
             ? 'bg-amber-50/80 border-amber-300 shadow-sm'
@@ -193,20 +135,7 @@ export default function Desk() {
 
         {isOpen && (
           <div className="mt-3 text-xs text-gray-600 border-t border-amber-100 pt-3">
-            {service.options ? (
-              <div className="flex flex-col gap-3">
-                {service.options.map((opt, idx) => (
-                  <div key={idx} className="bg-white/80 p-3 rounded-xl border border-amber-200/60">
-                    <span className="font-semibold text-amber-800 block mb-1">
-                      {opt.optionLabel}
-                    </span>
-                    <p className="leading-relaxed">{opt.description}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="leading-relaxed">{service.description}</p>
-            )}
+            <p className="leading-relaxed">{service.description}</p>
           </div>
         )}
       </div>
@@ -245,6 +174,7 @@ export default function Desk() {
       </div>
     )
   }
+
   return (
     <div className="bg-white min-h-screen p-8">
       <h1 className="font-bold text-2xl flex justify-center gap-2 mb-2">
@@ -264,6 +194,8 @@ export default function Desk() {
 
         <div className="flex flex-col gap-10">
           {servicesCategories.map((group, groupIdx) => {
+            if (group.items.length === 0) return null
+
             const firstRowItems = group.items.slice(0, 3)
             const secondRowItems = group.items.slice(3)
 

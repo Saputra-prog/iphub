@@ -1,48 +1,64 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const comments = [
-  {
-    image: "/bg-1.png",
-    name: "Alwi AlRasyi",
-    text: "Mungkin saya menemukan salah satu Virtual office yang unik. Karena dari luar seperti sebuah coffee shop tapi waktu masuk kedalam, tempat ini ternyata memiliki fasilitas VO. Kelebihan virtual office ditempat ini dapat membantu segala proses perizinan seperti pendirian PT, lisensi bisnis dan konsultan pajak.",
-  },
-  {
-    image: "/bg-1.png",
-    name: "Aulia Rizki",
-    text: "Virtual office di pusat kota jakarta yang tidak kena rute ganjil genap dan mudah di akses oleh transportasi publik seperti commuter dan transjakarta. Ada cafe dan meeting room untuk pertemuan dengan klien.",
-  },
-  {
-    image: "/bg-1.png",
-    name: "Zacky Hutama",
-    text: "Great place to work, with a cafe on the ground floor. Also, the first time I got here, I'm visiting the Mozilla Community Space Jakarta. Have a great time here, definitely come back here any time soon!",
-  },
-  {
-    image: "/bg-1.png",
-    name: "Agus Rochmanto",
-    text: "Sekilas terlihat hanya 1 lantai ternyata setelah masuk ada perkantoran yg nyaman dan cukup mewah sampai 4 lantai. Bersyukur kita bs dapat tempat disana..strategis simple dan representatif.",
-  },
-  {
-    image: "/bg-1.png",
-    name: "Chloe Elizabetha",
-    text: "Worth it banget sih pelayanan nya, proses administrasinya juga cepat dan gak ribet, Pegawainya profesional, ramah jadi helping banget buat ngurus surat² maupun urusan legalitas. Lokasinya jg strategis jadi ngasih image yang bagus untuk bisnis saya, harganya pun worth it lah dengan fasilitas dan kualitas pelayanan yang disuguhin. Intinya recommended bgt buat pengusaha yang butuh domisili kantor yang terpercaya, mantap.",
-  },
-];
+interface CommentItem {
+  id: number | string;
+  name: string;
+  rating: number;
+  comment: string;
+  profileImage?: string;
+}
 
 export default function Home() {
+  const [comments, setComments] = useState<CommentItem[]>([]);
   const [current, setCurrent] = useState(0);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/testimonialModel`);
+        if (res.data?.success && res.data.data.length > 0) {
+          setComments(res.data.data);
+        }
+      } catch (err) {
+        console.error("Gagal mengambil data testimonial:", err);
+      }
+    };
+
+    if (API_URL) {
+      fetchComments();
+    }
+  }, [API_URL]);
+
+  const getImageUrl = (imagePath?: string) => {
+    if (!imagePath) return "/bg-1.png";
+    if (imagePath.startsWith("http")) return imagePath;
+    
+    const cleanPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+    return `${API_URL}${cleanPath}`;
+  };
+
   const handlePrevious = () => {
-    setCurrent(
-      (prev) => (prev - 1 + comments.length) % comments.length
-    );
+    if (comments.length === 0) return;
+    setCurrent((prev) => (prev - 1 + comments.length) % comments.length);
   };
 
   const handleNext = () => {
+    if (comments.length === 0) return;
     setCurrent((prev) => (prev + 1) % comments.length);
   };
+
+  const renderStars = (rating: number) => {
+    return "★".repeat(Math.min(Math.max(rating, 1), 5));
+  };
+
+  if (comments.length === 0) {
+    return null;
+  }
 
   const leftIndex = (current - 1 + comments.length) % comments.length;
   const centerIndex = current;
@@ -82,20 +98,22 @@ export default function Home() {
           </button>
 
           <div className="grid w-full grid-cols-1 md:grid-cols-3 items-center gap-4">
+            {/* Card Left */}
             <div className="hidden md:grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
-                ★★★★★
+                {renderStars(leftComment.rating)}
               </div>
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-gray-600">
-                "{leftComment.text}"
+                "{leftComment.comment}"
               </p>
               <div className="grid grid-cols-[40px_1fr] items-center gap-2">
-                <Image
-                  src={leftComment.image}
+                <img
+                  src={getImageUrl(leftComment.profileImage)}
                   alt={leftComment.name}
-                  width={40}
-                  height={40}
                   className="h-10 w-10 aspect-square rounded-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/bg-1.png";
+                  }}
                 />
                 <p className="truncate text-xs font-semibold text-gray-800">
                   {leftComment.name}
@@ -103,20 +121,22 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Card Center */}
             <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
-                ★★★★★
+                {renderStars(centerComment.rating)}
               </div>
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-gray-600">
-                "{centerComment.text}"
+                "{centerComment.comment}"
               </p>
               <div className="grid grid-cols-[40px_1fr] items-center gap-2">
-                <Image
-                  src={centerComment.image}
+                <img
+                  src={getImageUrl(centerComment.profileImage)}
                   alt={centerComment.name}
-                  width={40}
-                  height={40}
                   className="h-10 w-10 aspect-square rounded-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/bg-1.png";
+                  }}
                 />
                 <p className="truncate text-xs font-semibold text-gray-800">
                   {centerComment.name}
@@ -124,20 +144,22 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Card Right */}
             <div className="hidden md:grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
-                ★★★★★
+                {renderStars(rightComment.rating)}
               </div>
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-gray-600">
-                "{rightComment.text}"
+                "{rightComment.comment}"
               </p>
               <div className="grid grid-cols-[40px_1fr] items-center gap-2">
-                <Image
-                  src={rightComment.image}
+                <img
+                  src={getImageUrl(rightComment.profileImage)}
                   alt={rightComment.name}
-                  width={40}
-                  height={40}
                   className="h-10 w-10 aspect-square rounded-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/bg-1.png";
+                  }}
                 />
                 <p className="truncate text-xs font-semibold text-gray-800">
                   {rightComment.name}

@@ -2,6 +2,18 @@
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import { 
+  Newspaper, 
+  Plus, 
+  Pencil, 
+  Trash2, 
+  X, 
+  Upload, 
+  Calendar, 
+  CheckCircle2, 
+  AlertCircle, 
+  Image as ImageIcon 
+} from 'lucide-react';
 
 interface BeritaItem {
   id: number;
@@ -25,6 +37,7 @@ export default function AdminBeritaPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const getImageUrl = (imagePath: string) => {
     if (!imagePath) return '/placeholder.png';
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
@@ -128,89 +141,133 @@ export default function AdminBeritaPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4 md:px-8 pb-24 font-sans">
-      <h1 className="text-xl md:text-2xl font-bold mb-6 text-zinc-800">
-        Admin Panel - Kelola Berita & Kegiatan
-      </h1>
+    <div className="max-w-6xl mx-auto py-8 px-4 md:px-8 pb-28 font-sans space-y-6">
+      
+      {/* Header Halaman */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-5">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2.5">
+            <Newspaper className="text-amber-500 stroke-[2.2]" /> Kelola Berita & Kegiatan
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Tambah, sunting, atau hapus artikel serta informasi kegiatan terbaru perusahaan.
+          </p>
+        </div>
+      </div>
 
+      {/* Pesan Status Notifikasi */}
       {statusMessage && (
         <div
-          className={`p-4 rounded-lg mb-6 border ${
+          className={`p-4 rounded-xl text-sm font-medium flex items-center gap-3 transition-all ${
             statusMessage.isError
-              ? 'bg-red-50 text-red-700 border-red-200'
-              : 'bg-green-50 text-green-700 border-green-200'
+              ? 'bg-red-50 text-red-700 border border-red-200'
+              : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
           }`}
         >
-          {statusMessage.text}
+          {statusMessage.isError ? (
+            <AlertCircle size={18} className="shrink-0" />
+          ) : (
+            <CheckCircle2 size={18} className="shrink-0" />
+          )}
+          <span>{statusMessage.text}</span>
         </div>
       )}
+
+      {/* Daftar Berita */}
       {loading ? (
-        <p className="text-zinc-500">Memuat data berita...</p>
+        <div className="py-20 text-center text-gray-400 text-sm">
+          Memuat data berita...
+        </div>
       ) : beritaList.length === 0 ? (
-        <p className="text-zinc-500">
-          Belum ada berita. Klik tombol Tambah di kanan bawah untuk membuat berita baru.
-        </p>
+        <div className="py-16 text-center bg-white rounded-2xl border border-dashed border-gray-300 p-8">
+          <Newspaper size={48} className="mx-auto text-gray-300 mb-3" />
+          <p className="text-gray-500 font-medium text-sm">Belum ada berita yang diterbitkan.</p>
+          <p className="text-gray-400 text-xs mt-1">Klik tombol "+ Tambah Berita" untuk membuat artikel baru.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {beritaList.map((item) => (
             <div
               key={item.id}
-              className="border border-zinc-200 rounded-xl overflow-hidden bg-white flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-md transition-all group"
             >
               <div>
-                <div className="w-full h-44 bg-zinc-100 overflow-hidden">
+                {/* Gambar dengan Overlay Tanggal */}
+                <div className="relative w-full h-48 bg-gray-100 overflow-hidden">
                   <img
                     src={getImageUrl(item.image)}
                     alt={item.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/50 text-[11px] font-semibold text-amber-700 flex items-center gap-1.5 shadow-sm">
+                    <Calendar size={12} /> {item.date}
+                  </div>
                 </div>
-                <div className="p-4">
-                  <span className="text-xs font-bold text-amber-500 block mb-1">
-                    {item.date}
-                  </span>
-                  <h3 className="text-sm md:text-base font-bold text-zinc-900 mb-2 line-clamp-2">
+
+                {/* Konten Berita */}
+                <div className="p-5 space-y-2">
+                  <h3 className="text-base font-bold text-gray-800 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-zinc-600 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
                     {item.content}
                   </p>
                 </div>
               </div>
-              <div className="p-3 border-t border-zinc-100 flex gap-2 bg-zinc-50">
+
+              {/* Tombol Aksi */}
+              <div className="p-3 bg-gray-50 border-t border-gray-100 flex gap-2">
                 <button
                   onClick={() => handleOpenEditModal(item)}
-                  className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded transition-colors cursor-pointer"
+                  className="flex-1 py-2 px-3 bg-white hover:bg-amber-50 text-amber-700 hover:text-amber-800 border border-gray-200 hover:border-amber-200 font-medium text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
                 >
-                  Edit
+                  <Pencil size={14} /> Edit
                 </button>
                 <button
                   onClick={() => handleDelete(item.id)}
-                  className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs rounded transition-colors cursor-pointer"
+                  className="flex-1 py-2 px-3 bg-white hover:bg-rose-50 text-gray-600 hover:text-rose-600 border border-gray-200 hover:border-rose-200 font-medium text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
                 >
-                  Hapus
+                  <Trash2 size={14} /> Hapus
                 </button>
               </div>
             </div>
           ))}
         </div>
       )}
+
+      {/* Floating Action Button (FAB) */}
       <button
         onClick={handleOpenAddModal}
-        className="fixed bottom-8 right-8 px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm md:text-base rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer z-50 flex items-center gap-2"
+        className="fixed bottom-8 right-8 px-5 py-3.5 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-semibold text-sm rounded-full shadow-lg hover:shadow-amber-500/25 transition-all cursor-pointer z-40 flex items-center gap-2"
       >
-        + Tambah Berita
+        <Plus size={20} />
+        <span>Tambah Berita</span>
       </button>
+
+      {/* Modal / Dialog Form */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
-            <h2 className="text-lg font-bold mb-4 text-zinc-800">
-              {editingId ? 'Edit Berita' : 'Tambah Berita Baru'}
-            </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity">
+          <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl border border-gray-100 flex flex-col animate-in fade-in zoom-in-95 duration-150">
+            
+            {/* Header Modal */}
+            <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+              <h2 className="text-base font-bold text-gray-800 flex items-center gap-2">
+                {editingId ? <Pencil size={16} className="text-amber-500" /> : <Plus size={18} className="text-amber-500" />}
+                {editingId ? 'Edit Berita' : 'Tambah Berita Baru'}
+              </h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Body Form */}
+            <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 flex-1">
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  Judul Berita:
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Judul Berita
                 </label>
                 <input
                   type="text"
@@ -218,12 +275,13 @@ export default function AdminBeritaPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   required
                   placeholder="Masukkan judul berita..."
-                  className="w-full p-2.5 text-sm rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full p-3 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-gray-800 placeholder:text-gray-400"
                 />
               </div>
+
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  Tanggal (misal: 10 SEP 2025):
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Tanggal Publikasi
                 </label>
                 <input
                   type="text"
@@ -231,54 +289,63 @@ export default function AdminBeritaPage() {
                   onChange={(e) => setDate(e.target.value)}
                   required
                   placeholder="Contoh: 10 SEP 2025"
-                  className="w-full p-2.5 text-sm rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full p-3 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-gray-800 placeholder:text-gray-400"
                 />
               </div>
+
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  Deskripsi / Isi Berita:
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Isi / Deskripsi Berita
                 </label>
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={4}
                   required
-                  placeholder="Masukkan konten..."
-                  className="w-full p-2.5 text-sm rounded-md border border-zinc-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  placeholder="Tuliskan konten berita secara rinci..."
+                  className="w-full p-3 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-gray-800 placeholder:text-gray-400 resize-none"
                 />
               </div>
+
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  Gambar Berita:
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Gambar Berita
                 </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="text-xs text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer"
-                />
-                {previewImage && (
-                  <img
-                    src={previewImage}
-                    alt="Preview"
-                    className="w-full h-36 object-cover mt-3 rounded-md border border-zinc-200"
+                <div className="flex items-center gap-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="block w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer border border-gray-200 rounded-xl"
                   />
+                </div>
+
+                {previewImage && (
+                  <div className="mt-3 relative rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-video max-h-40">
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
-              <div className="flex gap-2 justify-end mt-2">
+
+              {/* Footer Modal */}
+              <div className="flex gap-3 justify-end pt-4 border-t border-gray-100 mt-6">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-md border border-zinc-300 text-xs font-semibold text-zinc-700 hover:bg-zinc-100 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-md bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition-colors cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-semibold transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shadow-sm"
                 >
-                  {isSubmitting ? 'Menyimpan...' : 'Simpan'}
+                  {isSubmitting ? 'Menyimpan...' : 'Simpan Berita'}
                 </button>
               </div>
             </form>
