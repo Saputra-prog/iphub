@@ -79,22 +79,22 @@ export default function AdminHomePage() {
   };
 
   if (loadingFetch) {
-    return <div className="p-8 text-center text-gray-500">Memuat data hero...</div>;
+    return <div className="p-4 sm:p-8 text-center text-gray-500 text-sm sm:text-base">Memuat data hero...</div>;
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          <Home className="text-amber-500" /> Halaman Utama
+    <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 sm:space-y-8 w-full box-border">
+      <div className="space-y-1">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2 flex-wrap">
+          <Home className="text-amber-500 shrink-0" /> Halaman Utama
         </h1>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-xs sm:text-sm">
           Kelola teks judul, deskripsi, dan gambar latar belakang utama untuk tampilan awal website.
         </p>
       </div>
       {statusMessage && (
         <div
-          className={`p-4 rounded-xl text-sm font-medium transition-all ${
+          className={`p-3 sm:p-4 rounded-xl text-xs sm:text-sm font-medium transition-all ${
             statusMessage.isError
               ? 'bg-red-50 text-red-700 border border-red-200'
               : 'bg-green-50 text-green-700 border border-green-200'
@@ -103,9 +103,9 @@ export default function AdminHomePage() {
           {statusMessage.text}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-200 shadow-sm space-y-5 sm:space-y-6">
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-700">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700">
             Judul Halaman
           </label>
           <input
@@ -114,11 +114,11 @@ export default function AdminHomePage() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Masukkan judul halaman..."
             required
-            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all text-sm text-gray-800"
+            className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all text-xs sm:text-sm text-gray-800"
           />
         </div>
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-700">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700">
             Isi / Deskripsi Teks
           </label>
           <textarea
@@ -127,11 +127,11 @@ export default function AdminHomePage() {
             placeholder="Masukkan deskripsi..."
             rows={5}
             required
-            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all text-sm text-gray-800"
+            className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all text-xs sm:text-sm text-gray-800 resize-y"
           />
         </div>
         <div className="space-y-3 pt-2">
-          <label className="block text-sm font-semibold text-gray-700">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700">
             Gambar Background
           </label>
           <div className="flex items-center gap-4">
@@ -139,7 +139,7 @@ export default function AdminHomePage() {
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer border border-gray-200 rounded-xl"
+              className="block w-full text-xs sm:text-sm text-gray-500 file:mr-2 sm:file:mr-4 file:py-2 file:px-3 sm:file:py-2.5 sm:file:px-4 file:rounded-xl file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer border border-gray-200 rounded-xl"
             />
           </div>
           {currentBg && (
@@ -147,7 +147,7 @@ export default function AdminHomePage() {
               <span className="text-xs text-gray-500 flex items-center gap-1">
                 <ImageIcon size={14} /> Preview Background Saat Ini:
               </span>
-              <div className="relative rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-video max-h-72">
+              <div className="relative rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-video max-h-72 w-full">
                 <img
                   src={currentBg}
                   alt="Background Preview"
@@ -161,7 +161,7 @@ export default function AdminHomePage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-medium px-6 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50 cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-medium px-6 py-2.5 rounded-xl transition-all shadow-sm disabled:opacity-50 cursor-pointer text-xs sm:text-sm"
           >
             <Save size={18} />
             {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
