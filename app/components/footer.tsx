@@ -3,18 +3,19 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import axios from 'axios'
-import { Phone, Mail, MapPin, Play } from 'lucide-react'
+import { Mail, MapPin, Play } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa6'
+import { useLanguage } from '../components/LanguageContext'
 
 interface ServiceItem {
   _id?: string
   id?: string | number
-  title: string
-  category?: string
-  description?: string
+  title_id?: string
+  title_en?: string
 }
 
 export default function Footer() {
+  const { lang } = useLanguage()
   const [services, setServices] = useState<ServiceItem[]>([])
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
@@ -23,6 +24,7 @@ export default function Footer() {
     const fetchServices = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/serviceModel`)
+
         if (res.data?.success) {
           setServices(res.data.data)
         }
@@ -34,7 +36,6 @@ export default function Footer() {
     fetchServices()
   }, [API_URL])
 
-  // Membagi data dari API menjadi 2 kolom secara merata
   const midIndex = Math.ceil(services.length / 2)
   const layananList1 = services.slice(0, midIndex)
   const layananList2 = services.slice(midIndex)
@@ -45,7 +46,7 @@ export default function Footer() {
       href: 'https://www.instagram.com/iphub.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
       svg: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98 6.979-6.782-2.618-6.979-6.98-.059-1.28-.073-1.689-.073-4.948 0-3.259.014-3.667.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
         </svg>
       ),
     },
@@ -84,18 +85,34 @@ export default function Footer() {
         className="absolute inset-0 bg-cover bg-center opacity-25"
         style={{ backgroundImage: `url('/bg-1.png')` }}
       />
+
       <div className="relative max-w-7xl mx-auto px-6 pt-12 pb-8 z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2">
-              <Image src="/Logo3.png" width={160} height={50} alt="IPHUB Logo" priority />
+              <Image
+                src="/Logo3.png"
+                width={160}
+                height={50}
+                alt="IPHUB Logo"
+                priority
+              />
             </div>
-            <h3 className="text-xl font-bold text-amber-500">Misi Kami</h3>
+
+            <h3 className="text-xl font-bold text-amber-500">
+              {lang === 'ID' ? 'Misi Kami' : 'Our Mission'}
+            </h3>
+
             <p className="text-xs text-zinc-300 leading-relaxed pr-4">
-              IPHub adalah ekosistem bisnis dimana perusahaan anda dapat memiliki peluang terbaik untuk berhasil kami dapat memfasilitasi ruang kerja tim anda, lokakarya, dan acara perusahaan. Konsultan IPHub juga siap untuk membantu kebutuhan bisnis anda
+              {lang === 'ID'
+                ? 'IPHub adalah ekosistem bisnis dimana perusahaan anda dapat memiliki peluang terbaik untuk berhasil kami dapat memfasilitasi ruang kerja tim anda, lokakarya, dan acara perusahaan. Konsultan IPHub juga siap untuk membantu kebutuhan bisnis anda'
+                : 'IPHub is a business ecosystem where your company can have the best opportunities to succeed. We provide facilities for your team workspace, workshops, and corporate events. IPHub consultants are also ready to assist with your business needs.'}
             </p>
+
             <p className="text-xs text-zinc-300 leading-relaxed pr-4">
-              Sebagai sister company dari Reanda Bernardi{' '}
+              {lang === 'ID'
+                ? 'Sebagai sister company dari Reanda Bernardi, firma akuntansi terintegrasi peringkat top 20 dunia, IPHub memiliki akses ke investor Cina, Jepang, dan negara maju lainnya, yang dapat membantu memperbesar skala bisnis perusahaan kamu.'
+                : 'As a sister company of Reanda Bernardi, a top 20 global integrated accounting firm, IPHub has access to investors from China, Japan, and other developed countries who can help expand your business scale.'}{' '}
               <a
                 href="https://www.reandabernardi.com"
                 target="_blank"
@@ -103,9 +120,9 @@ export default function Footer() {
                 className="text-amber-500 underline hover:text-amber-400 transition-colors"
               >
                 www.reandabernardi.com
-              </a>{' '}
-              firma akuntansi terintegrasi peringkat top 20 dunia, IPHub memiliki akses ke investor Cina, Jepang, dan negara maju lainnya, yang dapat membantu memperbesar skala bisnis perusahaan kamu.
+              </a>
             </p>
+
             <div className="flex gap-2 pt-2">
               {socialLinks.map((item, idx) => (
                 <a
@@ -122,22 +139,42 @@ export default function Footer() {
 
           <div className="md:col-span-7">
             <h3 className="text-xl font-bold text-amber-500 mb-4 text-center md:text-left">
-              Layanan & Perencanaan
+              {lang === 'ID'
+                ? 'Layanan & Perencanaan'
+                : 'Services & Planning'}
             </h3>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-xs text-zinc-300">
               <ul className="space-y-2">
                 {layananList1.map((item) => (
-                  <li key={item._id || item.id} className="flex items-center gap-2">
+                  <li
+                    key={item._id || item.id}
+                    className="flex items-center gap-2"
+                  >
                     <Play className="w-2.5 h-2.5 fill-amber-500 text-amber-500 shrink-0" />
-                    <span>{item.title}</span>
+
+                    <span>
+                      {lang === 'ID'
+                        ? item.title_id || ''
+                        : item.title_en || item.title_id || ''}
+                    </span>
                   </li>
                 ))}
               </ul>
+
               <ul className="space-y-2">
                 {layananList2.map((item) => (
-                  <li key={item._id || item.id} className="flex items-center gap-2">
+                  <li
+                    key={item._id || item.id}
+                    className="flex items-center gap-2"
+                  >
                     <Play className="w-2.5 h-2.5 fill-amber-500 text-amber-500 shrink-0" />
-                    <span>{item.title}</span>
+
+                    <span>
+                      {lang === 'ID'
+                        ? item.title_id || ''
+                        : item.title_en || item.title_id || ''}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -150,35 +187,60 @@ export default function Footer() {
             <div className="p-2 border border-amber-500/50 rounded-lg text-amber-500">
               <FaWhatsapp className="w-5 h-5" />
             </div>
+
             <div>
-              <p className="text-xs font-semibold text-amber-500">+62 811 8181 1466</p>
-              <p className="text-[10px] text-zinc-400">Senin - Jumat 08.00 - 17.30</p>
+              <p className="text-xs font-semibold text-amber-500">
+                +62 811 8181 1466
+              </p>
+
+              <p className="text-[10px] text-zinc-400">
+                {lang === 'ID'
+                  ? 'Senin - Jumat 08.00 - 17.30'
+                  : 'Monday - Friday 08.00 - 17.30'}
+              </p>
             </div>
           </div>
+
           <div className="flex items-center gap-3">
             <div className="p-2 border border-amber-500/50 rounded-lg text-amber-500">
               <Mail className="w-5 h-5" />
             </div>
+
             <div>
-              <p className="text-xs font-semibold text-amber-500">marketing@iphub.co.id</p>
-              <p className="text-[10px] text-zinc-400">Email</p>
+              <p className="text-xs font-semibold text-amber-500">
+                marketing@iphub.co.id
+              </p>
+
+              <p className="text-[10px] text-zinc-400">
+                {lang === 'ID' ? 'Email' : 'Email'}
+              </p>
             </div>
           </div>
+
           <div className="flex items-start gap-3">
             <div className="p-2 border border-amber-500/50 rounded-lg text-amber-500 shrink-0">
               <MapPin className="w-5 h-5" />
             </div>
+
             <div>
               <p className="text-xs text-zinc-300 leading-snug">
-                Cik9 Building, Jalan Cikini Raya No.9, Cikini, Menteng, Jakarta Pusat, 10330
+                {lang === 'ID'
+                  ? 'Cik9 Building, Jalan Cikini Raya No.9, Cikini, Menteng, Jakarta Pusat, 10330'
+                  : 'Cik9 Building, Jalan Cikini Raya No.9, Cikini, Menteng, Central Jakarta, 10330'}
               </p>
-              <p className="text-[10px] text-zinc-400 font-medium">Kantor Pusat</p>
+
+              <p className="text-[10px] text-zinc-400 font-medium">
+                {lang === 'ID' ? 'Kantor Pusat' : 'Head Office'}
+              </p>
             </div>
           </div>
         </div>
       </div>
+
       <div className="relative z-10 text-center py-3 bg-black/80 text-[11px] text-zinc-400 border-t border-zinc-800">
-        Copyright ©2025 iphub.co.id All Rights Reserved
+        {lang === 'ID'
+          ? 'Copyright ©2025 iphub.co.id All Rights Reserved'
+          : 'Copyright ©2025 iphub.co.id All Rights Reserved'}
       </div>
     </footer>
   )

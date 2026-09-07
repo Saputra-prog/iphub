@@ -1,72 +1,85 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useLanguage } from '../../../components/LanguageContext'
 
 interface CommentItem {
-  id: number | string;
-  name: string;
-  rating: number;
-  comment: string;
-  profileImage?: string;
+  id: number | string
+  name: string
+  rating: number
+  comment_id?: string
+  comment_en?: string
+  profileImage?: string
 }
 
 export default function Home() {
-  const [comments, setComments] = useState<CommentItem[]>([]);
-  const [current, setCurrent] = useState(0);
+  const { lang } = useLanguage()
+  const [comments, setComments] = useState<CommentItem[]>([])
+  const [current, setCurrent] = useState(0)
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/testimonialModel`);
+        const res = await axios.get(`${API_URL}/api/testimonialModel`)
+
         if (res.data?.success && res.data.data.length > 0) {
-          setComments(res.data.data);
+          setComments(res.data.data)
         }
       } catch (err) {
-        console.error("Gagal mengambil data testimonial:", err);
+        console.error('Gagal mengambil data testimonial:', err)
       }
-    };
+    }
 
     if (API_URL) {
-      fetchComments();
+      fetchComments()
     }
-  }, [API_URL]);
+  }, [API_URL])
 
   const getImageUrl = (imagePath?: string) => {
-    if (!imagePath) return "/bg-1.png";
-    if (imagePath.startsWith("http")) return imagePath;
-    
-    const cleanPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
-    return `${API_URL}${cleanPath}`;
-  };
+    if (!imagePath) return '/bg-1.png'
+    if (imagePath.startsWith('http')) return imagePath
 
-  const handlePrevious = () => {
-    if (comments.length === 0) return;
-    setCurrent((prev) => (prev - 1 + comments.length) % comments.length);
-  };
+    const cleanPath = imagePath.startsWith('/')
+      ? imagePath
+      : `/${imagePath}`
 
-  const handleNext = () => {
-    if (comments.length === 0) return;
-    setCurrent((prev) => (prev + 1) % comments.length);
-  };
-
-  const renderStars = (rating: number) => {
-    return "★".repeat(Math.min(Math.max(rating, 1), 5));
-  };
-
-  if (comments.length === 0) {
-    return null;
+    return `${API_URL}${cleanPath}`
   }
 
-  const leftIndex = (current - 1 + comments.length) % comments.length;
-  const centerIndex = current;
-  const rightIndex = (current + 1) % comments.length;
+  const handlePrevious = () => {
+    if (comments.length === 0) return
+    setCurrent((prev) => (prev - 1 + comments.length) % comments.length)
+  }
 
-  const leftComment = comments[leftIndex];
-  const centerComment = comments[centerIndex];
-  const rightComment = comments[rightIndex];
+  const handleNext = () => {
+    if (comments.length === 0) return
+    setCurrent((prev) => (prev + 1) % comments.length)
+  }
+
+  const renderStars = (rating: number) => {
+    return '★'.repeat(Math.min(Math.max(rating, 1), 5))
+  }
+
+  if (comments.length === 0) {
+    return null
+  }
+
+  const leftIndex = (current - 1 + comments.length) % comments.length
+  const centerIndex = current
+  const rightIndex = (current + 1) % comments.length
+
+  const leftComment = comments[leftIndex]
+  const centerComment = comments[centerIndex]
+  const rightComment = comments[rightIndex]
+
+  const getComment = (comment: CommentItem) => {
+    return lang === 'ID'
+      ? comment.comment_id || ''
+      : comment.comment_en || comment.comment_id || ''
+  }
 
   return (
     <div>
@@ -78,12 +91,18 @@ export default function Home() {
       >
         <div className="mx-auto grid w-full max-w-6xl px-4 sm:px-6 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold">
-            <span className="text-[#d4a35f]">Komentar</span>{" "}
-            <span className="text-black">Klien Kami</span>
+            <span className="text-[#d4a35f]">
+              {lang === 'ID' ? 'Komentar' : 'Client'}
+            </span>{' '}
+            <span className="text-black">
+              {lang === 'ID' ? 'Klien Kami' : 'Comments'}
+            </span>
           </h2>
+
           <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-600 max-w-2xl mx-auto">
-            Komentar dari klien yang telah menggunakan layanan kami sebagai
-            wujud profesionalisme dan kualitas kerja.
+            {lang === 'ID'
+              ? 'Komentar dari klien yang telah menggunakan layanan kami sebagai wujud profesionalisme dan kualitas kerja.'
+              : 'Comments from clients who have used our services as a reflection of our professionalism and quality of work.'}
           </p>
         </div>
 
@@ -91,76 +110,86 @@ export default function Home() {
           <button
             type="button"
             onClick={handlePrevious}
-            aria-label="Komentar sebelumnya"
+            aria-label={
+              lang === 'ID'
+                ? 'Komentar sebelumnya'
+                : 'Previous comment'
+            }
             className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
           >
             ‹
           </button>
 
           <div className="grid w-full grid-cols-1 md:grid-cols-3 items-center gap-4">
-            {/* Card Left */}
             <div className="hidden md:grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
                 {renderStars(leftComment.rating)}
               </div>
+
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-gray-600">
-                "{leftComment.comment}"
+                "{getComment(leftComment)}"
               </p>
+
               <div className="grid grid-cols-[40px_1fr] items-center gap-2">
                 <img
                   src={getImageUrl(leftComment.profileImage)}
                   alt={leftComment.name}
                   className="h-10 w-10 aspect-square rounded-full object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/bg-1.png";
+                    ;(e.target as HTMLImageElement).src = '/bg-1.png'
                   }}
                 />
+
                 <p className="truncate text-xs font-semibold text-gray-800">
                   {leftComment.name}
                 </p>
               </div>
             </div>
 
-            {/* Card Center */}
             <div className="grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
                 {renderStars(centerComment.rating)}
               </div>
+
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-gray-600">
-                "{centerComment.comment}"
+                "{getComment(centerComment)}"
               </p>
+
               <div className="grid grid-cols-[40px_1fr] items-center gap-2">
                 <img
                   src={getImageUrl(centerComment.profileImage)}
                   alt={centerComment.name}
                   className="h-10 w-10 aspect-square rounded-full object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/bg-1.png";
+                    ;(e.target as HTMLImageElement).src = '/bg-1.png'
                   }}
                 />
+
                 <p className="truncate text-xs font-semibold text-gray-800">
                   {centerComment.name}
                 </p>
               </div>
             </div>
 
-            {/* Card Right */}
             <div className="hidden md:grid h-56 w-full grid-rows-[auto_1fr_auto] overflow-hidden rounded-xl border border-gray-300 bg-white p-5 shadow-md">
               <div className="text-sm tracking-wide text-yellow-400">
                 {renderStars(rightComment.rating)}
               </div>
+
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-gray-600">
-                "{rightComment.comment}"
+                "{getComment(rightComment)}"
               </p>
+
               <div className="grid grid-cols-[40px_1fr] items-center gap-2">
                 <img
                   src={getImageUrl(rightComment.profileImage)}
                   alt={rightComment.name}
                   className="h-10 w-10 aspect-square rounded-full object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/bg-1.png";
+                    ;(e.target as HTMLImageElement).src = '/bg-1.png'
                   }}
                 />
+
                 <p className="truncate text-xs font-semibold text-gray-800">
                   {rightComment.name}
                 </p>
@@ -171,7 +200,11 @@ export default function Home() {
           <button
             type="button"
             onClick={handleNext}
-            aria-label="Komentar selanjutnya"
+            aria-label={
+              lang === 'ID'
+                ? 'Komentar selanjutnya'
+                : 'Next comment'
+            }
             className="z-10 grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-full border border-[#e88900] bg-white text-lg sm:text-xl leading-none text-[#e88900] shadow-sm transition duration-200 hover:scale-110 hover:bg-[#e88900] hover:text-white"
           >
             ›
@@ -185,11 +218,15 @@ export default function Home() {
                 key={index}
                 type="button"
                 onClick={() => setCurrent(index)}
-                aria-label={`Komentar ${index + 1}`}
+                aria-label={
+                  lang === 'ID'
+                    ? `Komentar ${index + 1}`
+                    : `Comment ${index + 1}`
+                }
                 className={
                   current === index
-                    ? "h-1.5 w-5 rounded-full bg-[#e88900] transition-all duration-300"
-                    : "h-1.5 w-1.5 rounded-full bg-[#f6d98e] transition-all duration-300"
+                    ? 'h-1.5 w-5 rounded-full bg-[#e88900] transition-all duration-300'
+                    : 'h-1.5 w-1.5 rounded-full bg-[#f6d98e] transition-all duration-300'
                 }
               />
             ))}
@@ -197,5 +234,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  );
+  )
 }

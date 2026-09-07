@@ -1,44 +1,55 @@
-import  Home  from './User/Home/home/page'
-import Navbar from './components/navbar'
-import Desk from './User/Home/desk/page'
-import Lokasi from './User/Home/lokasi/page'
-import Berita from './User/Home/berita/page'
-import Komentar from './User/Home/komentar/page'
-import Bisnis from './User/Home/bisnis/page'
-import Footer from './components/footer'
-import PromoBanner from './User/Home/promoBanner/page'
+'use client';
 
+import Home from './User/Home/home/page';
+import Navbar from './components/navbar';
+import Desk from './User/Home/desk/page';
+import Lokasi from './User/Home/lokasi/page';
+import Berita from './User/Home/berita/page';
+import Komentar from './User/Home/komentar/page';
+import Bisnis from './User/Home/bisnis/page';
+import Footer from './components/footer';
+import PromoBanner from './User/Home/promoBanner/page';
+import { useLanguage } from './components/LanguageContext';
 
-function page() {
+function Page() {
+  const { t } = useLanguage();
+
   return (
     <div>
       <Navbar />
       <div id="home">
-      <Home />
+        <Home />
       </div>
+      
       <div id="desk">
-      <Desk />
+        <Desk />
       </div>
+      
       <div id="promo">
-      <PromoBanner />
+        <PromoBanner />
       </div>
+      
       <div id="bisnis">
-      <Bisnis />
+        <Bisnis />
       </div>
+      
       <div id="lokasi">
-      <Lokasi />
+        <Lokasi />
       </div>
+      
       <div id="komentar">
-      <Komentar />
+        <Komentar />
       </div>
+      
       <div id="berita">
-      <Berita />
+        <Berita />
       </div>
+      
       <div id="footer">
-      <Footer />
+        <Footer />
       </div>
     </div>
-  )
+  );
 }
 
-export default page
+export default Page;
