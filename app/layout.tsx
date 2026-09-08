@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "IPHUB - Solusi Terpadu Bisnis Modern",
   description: "Platform layanan profesional dan infrastruktur digital terpadu untuk bisnis.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
