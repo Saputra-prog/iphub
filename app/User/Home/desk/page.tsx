@@ -40,8 +40,8 @@ interface ServiceCategory {
 
 const CATEGORY_LIST = [
   {
-    id: 'Korporasi Umum & Kantor Virtual',
-    en: 'General Corporate & Virtual Office'
+    id: 'Kantor Virtual',
+    en: 'Virtual Office'
   },
   {
     id: 'Pendirian Perusahaan',
@@ -64,8 +64,6 @@ const CATEGORY_LIST = [
 const ICON_MAP: Record<string, LucideIcon> = {
   'Kantor Virtual': Building2,
   'Virtual Office': Building2,
-  'Korporasi Umum & Kantor Virtual': Building2,
-  'General Corporate & Virtual Office': Building2,
   'Perseroan Terbatas (PMA)': Building,
   'Limited Liability Company (PMA)': Building,
   'Perseroan Terbatas (Lokal)': UserCheck,
